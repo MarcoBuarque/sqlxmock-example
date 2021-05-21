@@ -1,7 +1,8 @@
 # sqlxmock-example
 
-# create DB
-
+# Run test
+ make test > test.log 
+# Infos about sqlxmock
 ### ExpectCommit
 utilizado para DB.Commit
 
@@ -28,3 +29,11 @@ verificar se todas as expectetions foram satisfeitas, retornando erro caso ainda
 ## MatchExpectationsInOrder
 True: Todos os expects seram executados na ordem em que foram criados (default)
 False: Utilizar quando os testes são executados paralelamente  
+
+# Setup DB
+Esse setup não é necessário para rodar os testes
+## create DB
+https://dev.to/vapordev/se-conectando-ao-postgresql-usando-golang-381h
+
+## migrate
+https://github.com/golang-migrate/migrate/blob/master/database/postgres/TUTORIAL.md
