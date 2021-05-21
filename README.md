@@ -24,10 +24,10 @@ utilizado quando existe algum argumento sobre o qual não temos controle
 por exemplo utilizar o time.now() no createdAt
 
 ### ExpectationsWereMet
-verificar se todas as expectetions foram satisfeitas, retornando erro caso ainda exista alguma expect na fila 
+verificar se todas as expects foram satisfeitas, retornando erro caso ainda exista alguma expect na fila 
 
 ## MatchExpectationsInOrder
-True: Todos os expects seram executados na ordem em que foram criados (default)
+True: Todos os expects serão executados na ordem em que foram criados (default)
 False: Utilizar quando os testes são executados paralelamente  
 
 # Setup DB
