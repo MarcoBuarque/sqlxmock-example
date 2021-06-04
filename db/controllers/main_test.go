@@ -12,14 +12,19 @@ func TestMain(m *testing.M) {
 	// load env
 	godotenv.Load()
 
-	err := db.StartMock(false)
-	if err != nil {
-		panic(err)
+	if os.Getenv("UNIT") == "true" || os.Getenv("UNIT") == "" {
+		err := db.StartMock(false)
+		if err != nil {
+			panic(err)
+		}
+		// db.MockNode.MatchExpectationsInOrder(false)
+	} else {
+		err := db.Start()
+		if err != nil {
+			panic(err)
+		}
 	}
 	defer db.Close()
-	defer db.MockNode.ExpectClose()
-
-	// db.MockNode.MatchExpectationsInOrder(false)
 
 	retCode := m.Run()
 

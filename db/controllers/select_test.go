@@ -37,6 +37,14 @@ func TestSelectUsers(t *testing.T) {
 			wantLen:   2,
 			wantError: nil,
 		},
+		{
+			purpose: "Should return an error when the connection fail",
+			mock: func() {
+				db.MockNode.ExpectQuery(query).WillReturnError(fmt.Errorf("Erro no DB"))
+			},
+			wantLen:   0,
+			wantError: fmt.Errorf("%v: %v", StrGetUsersFail, "Erro no DB"),
+		},
 		// { // TODO: erro se não tiver ninguem no db
 		// 	purpose: "Should return an error when users table is empty",
 		// },

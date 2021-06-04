@@ -20,7 +20,7 @@ func TestInsertUser(t *testing.T) {
 	columns := []string{"id"}
 
 	user := models.User{
-		FristName: "Marco",
+		FirstName: "Marco",
 		LastName:  "Oliveira",
 		Email:     "test@test.com",
 		Country:   "Brazil",
@@ -45,8 +45,8 @@ func TestInsertUser(t *testing.T) {
 			mock: func() {
 				rows := sqlxmock.NewRows(columns).AddRow(1)
 
-				db.MockNode.ExpectBegin() // TODO: teste do anyargument (insert user created at)
-				db.MockNode.ExpectQuery(query).WithArgs(user.FristName, user.LastName, user.Email, user.Country).WillReturnRows(rows)
+				db.MockNode.ExpectBegin()
+				db.MockNode.ExpectQuery(query).WithArgs(user.FirstName, user.LastName, user.Email, user.Country).WillReturnRows(rows)
 				db.MockNode.ExpectCommit()
 			},
 			wantID:    1,
@@ -57,10 +57,8 @@ func TestInsertUser(t *testing.T) {
 			giveUser: user,
 			mock: func() {
 				db.MockNode.ExpectBegin()
-				db.MockNode.ExpectQuery(query).WithArgs(user.FristName, user.LastName, user.Email, user.Country).WillReturnError(fmt.Errorf("um erro qualquer"))
-				// db.MockNode.ExpectCommit()
+				db.MockNode.ExpectQuery(query).WithArgs(user.FirstName, user.LastName, user.Email, user.Country).WillReturnError(fmt.Errorf("um erro qualquer"))
 				db.MockNode.ExpectRollback()
-
 			},
 			wantID:    0,
 			wantError: fmt.Errorf("%v: %v", StrInsertUserFail, "um erro qualquer"),
@@ -71,11 +69,12 @@ func TestInsertUser(t *testing.T) {
 		t.Run(tt.purpose, func(t *testing.T) {
 			tt.mock()
 			id, err := InsertUser(tt.giveUser)
+			fmt.Printf("Mock: %v \n Response: %v\n", tt.purpose, id)
 
 			assert.Equal(tt.wantError, err)
 			assert.Equal(tt.wantID, id)
 		})
 	}
 
-	assert.Equal(nil, db.MockNode.ExpectationsWereMet())
+	assert.Nil(db.MockNode.ExpectationsWereMet())
 }

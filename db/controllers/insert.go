@@ -8,7 +8,7 @@ import (
 )
 
 func InsertUser(user models.User) (int32, error) {
-	if user.FristName == "" || user.Email == "" || user.Country == "" {
+	if user.FirstName == "" || user.Email == "" || user.Country == "" {
 		return 0, fmt.Errorf("%v, %v", StrInsertUserFail, ErrParameterNotFound)
 	}
 
@@ -18,7 +18,7 @@ func InsertUser(user models.User) (int32, error) {
 	defer tx.Rollback()
 
 	err := tx.QueryRow(`INSERT INTO users (first_name, last_name, email, country) VALUES ($1, $2, $3, $4) RETURNING id`,
-		user.FristName, user.LastName, user.Email, user.Country).Scan(&id)
+		user.FirstName, user.LastName, user.Email, user.Country).Scan(&id)
 	if err != nil {
 		tx.Rollback()
 		return 0, fmt.Errorf("%v: %v", StrInsertUserFail, err)
